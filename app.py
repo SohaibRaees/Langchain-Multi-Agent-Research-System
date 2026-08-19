@@ -91,20 +91,71 @@ html, body, [class*="css"] {
 }
 
 /* ── Streamlit input overrides ── */
-.stTextInput > div > div > input {
-    background: rgba(255,255,255,0.06) !important;
+.stTextInput > div {
+    width: 100%;
+}
+/* ── Streamlit input overrides ── */
+
+.stTextInput > div {
+    width: 100% !important;
+}
+
+/* Outer input container */
+.stTextInput [data-baseweb="input"] {
+    background: #111f30 !important;
+    background-color: #111f30 !important;
+
     border: 1px solid rgba(56,189,248,0.25) !important;
     border-radius: 12px !important;
-    color: #f8fbff !important;
+}
+
+/* Inner BaseWeb container */
+.stTextInput [data-baseweb="base-input"] {
+    background: #111f30 !important;
+    background-color: #111f30 !important;
+}
+
+/* Actual text input */
+.stTextInput input {
+    background: #111f30 !important;
+    background-color: #111f30 !important;
+
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+
+    caret-color: #38bdf8 !important;
+
     font-family: 'DM Sans', sans-serif !important;
     font-size: 1rem !important;
     padding: 0.8rem 1rem !important;
-    transition: all 0.2s ease !important;
+
+    border: none !important;
+    outline: none !important;
 }
-.stTextInput > div > div > input:focus {
+
+/* Placeholder */
+.stTextInput input::placeholder {
+    color: #8fa3bd !important;
+    -webkit-text-fill-color: #8fa3bd !important;
+    opacity: 1 !important;
+}
+
+/* When typing / focused */
+.stTextInput input:focus {
+    background: #111f30 !important;
+    background-color: #111f30 !important;
+
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+}
+
+/* Focus border */
+.stTextInput [data-baseweb="input"]:focus-within {
     border-color: #38bdf8 !important;
     box-shadow: 0 0 0 4px rgba(56,189,248,0.14) !important;
 }
+
+/* Research Topic label */
 .stTextInput > label {
     font-family: 'DM Mono', monospace !important;
     font-size: 0.72rem !important;
@@ -112,6 +163,52 @@ html, body, [class*="css"] {
     text-transform: uppercase !important;
     color: #38bdf8 !important;
     font-weight: 500 !important;
+}
+
+/* ── Streamlit markdown/text visibility ── */
+.stMarkdown,
+.stMarkdown p,
+.stMarkdown li,
+.stMarkdown span,
+.stMarkdown strong,
+.stMarkdown em {
+    color: #e8f0fb !important;
+}
+
+.stMarkdown h1,
+.stMarkdown h2,
+.stMarkdown h3,
+.stMarkdown h4,
+.stMarkdown h5,
+.stMarkdown h6 {
+    color: #f8fbff !important;
+}
+
+.stMarkdown a {
+    color: #67d4ff !important;
+}
+
+.stMarkdown blockquote {
+    color: #cbd8e8 !important;
+    border-left-color: #38bdf8 !important;
+}
+
+.stMarkdown code {
+    color: #f3f7ff !important;
+    background: rgba(255,255,255,0.08) !important;
+}
+
+.stMarkdown table {
+    color: #e8f0fb !important;
+}
+
+.stMarkdown th {
+    color: #ffffff !important;
+    background: rgba(56,189,248,0.10) !important;
+}
+
+.stMarkdown td {
+    color: #dbe7f5 !important;
 }
 
 /* ── Button ── */
@@ -597,9 +694,15 @@ if r:
             <div class="panel-label orange">
                 📝 Final Research Report
             </div>
-        """, unsafe_allow_html=True)
+        """
+        , unsafe_allow_html=True)
 
-        st.markdown(r["writer"])
+        # Render the report normally so Markdown headings, lists, tables,
+        # and formatting remain readable on the dark UI.
+        st.markdown(
+            r["writer"],
+            unsafe_allow_html=False
+        )
 
         st.markdown("</div>", unsafe_allow_html=True)
 
